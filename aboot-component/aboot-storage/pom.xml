@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>aboot-component</artifactId>
+        <groupId>com.wteam</groupId>
+        <version>0.0.6</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.wteam.component</groupId>
+    <artifactId>aboot-storage</artifactId>
+    <name>存储模块</name>
+
+
+    <dependencies>
+        <!-- 同时需要common模块和logging模块只需要引入logging模块即可 -->
+        <dependency>
+            <groupId>com.wteam.component</groupId>
+            <artifactId>aboot-logdict</artifactId>
+            <version>0.0.6</version>
+        </dependency>
+    </dependencies>
+
+
+</project>

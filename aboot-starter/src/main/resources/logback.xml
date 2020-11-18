@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--scan:当为true,若配置文件,将会自动重载
+    scanPeriod:重载扫描时间间隔,前提:scan="true",不指定单位的话,默认单位为毫秒
+    debug:打印logback的内部信息,我们并不需要这功能,所以为false-->
+<configuration scan="true" scanPeriod="60 seconds" debug="false">
+    <!--定义参数常量-->
+    <!--日志级别:TRACE<DEBUG<INFO<WARN<ERROR,比如:指定info,可以显示INFO,WARN,ERROR的内容,不显示TRACE,DEBUG的内容-->
+    <!--logger.trace("msg") logger.debug...-->
+    <property name="log.level" value="INFO"/>
+    <!--日志文件保留多长时间-->
+    <property name="log.maxHistory" value="30"/>
+    <!--日志文件的根路径,catalina.base是tomcat存储的实例-->
+    <property name="log.filePath" value="logs/webapps"/>
+    <!--日志内容展现的格式-->
+    <!--格式化输出：%d:表示日期    %thread:表示线程名     %-5level:级别从左显示5个字符宽度  %msg:日志消息    %n:是换行符-->
+    <property name="log.pattern" value="%date{yyyy/MM/dd HH:mm:ss} %level [%thread] %logger{10} [%file:%line] %msg%n"/>
+    <property name="log.error.pattern" value="%date{yyyy/MM/dd HH:mm:ss} %level [%thread] %logger{50} [%file:%line] %msg%n"/>
+    <property name="log.console.pattern" value="%blue(%d{yyyy-MM-dd HH:mm:ss}) %cyan([%-20.20thread]) %magenta(%-5.5level) %yellow(%-50.50logger{50}|) %msg %n"/>
+
+
+
+    <!--appender:日志输出媒介,这里指定consoleAppender控制台-->
+    <appender name="consoleAppender" class="ch.qos.logback.core.ConsoleAppender">
+        <!--encoder:类似layout,负责将event事件转化为byte数组(字符串),并输出到文件中-->
+        <encoder>
+            <pattern>${log.console.pattern}</pattern>
+        </encoder>
+    </appender>
+    <!--DEBUG:随着size的增大或时间的推移,来生成新的文件-->
+    <appender name="debugAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!--文件路径-->
+        <file>${log.filePath}/debug.log</file>
+        <!--滚动策略:按天生成新文件-->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!--文件名称-->
+            <fileNamePattern>${log.filePath}/debug/debug.%d{yyyy-MM-dd}.log.gz</fileNamePattern>
+            <!--日志文件保留多长时间-->
+            <MaxHistory>${log.maxHistory}</MaxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${log.pattern}</pattern>
+        </encoder>
+        <!--过滤器:只记录DEBUG信息-->
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>DEBUG</level>
+            <!--匹配则记录,不匹配则否掉-->
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+    <!--INFO-->
+    <appender name="infoAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!--文件路径-->
+        <file>${log.filePath}/info.log</file>
+        <!--滚动策略:按天生成新文件-->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!--文件名称-->
+            <fileNamePattern>${log.filePath}/info/info.%d{yyyy-MM-dd}.log.gz</fileNamePattern>
+            <!--日志文件保留多长时间-->
+            <maxHistory>${log.maxHistory}</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${log.pattern}</pattern>
+        </encoder>
+        <!--过滤器:只记录INFO信息-->
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>INFO</level>
+            <!--匹配则记录,不匹配则否掉-->
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+    <!--ERROR-->
+    <appender name="errorAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!--文件路径-->
+        <file>${log.filePath}/error.log</file>
+        <!--滚动策略:按天生成新文件-->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!--文件名称-->
+            <fileNamePattern>${log.filePath}/error/error.%d{yyyy-MM-dd}.log.gz</fileNamePattern>
+            <!--日志文件保留多长时间-->
+            <MaxHistory>${log.maxHistory}</MaxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${log.error.pattern}</pattern>
+        </encoder>
+        <!--过滤器:只记录INFO信息-->
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <!--匹配则记录,不匹配则否掉-->
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+
+    <!--logger:主要用于指定存放日志对象,也可以定义日志类型和级别-
+                若没有指定level,因默认继承root,则level="info"
+                additivity="true":会将父类root中绑定的appender拿过来,给自己绑定,并以${log.level}方式输出-->
+    <logger name="com.wteam" level="${log.level}" additivity="true">
+        <!--logger绑定appender-->
+        <appender-ref ref="debugAppender"/>
+        <appender-ref ref="infoAppender"/>
+        <appender-ref ref="errorAppender"/>
+    </logger>
+
+    <!--监控sql日志输出 -->
+    <logger name="jdbc.sqlonly" level="DEBUG" additivity="false">
+        <appender-ref ref="consoleAppender" />
+
+    </logger>
+
+    <logger name="jdbc.resultset" level="ERROR" additivity="false">
+        <appender-ref ref="consoleAppender" />
+    </logger>
+
+    <!--  如不想看到表格数据，将INFO改为OFF  -->
+    <logger name="jdbc.resultsettable" level="DEBUG" additivity="false">
+        <appender-ref ref="consoleAppender" />
+    </logger>
+
+    <logger name="jdbc.connection" level="OFF" additivity="false">
+        <appender-ref ref="consoleAppender" />
+    </logger>
+
+    <logger name="jdbc.sqltiming" level="OFF" additivity="false">
+        <appender-ref ref="consoleAppender" />
+    </logger>
+
+    <logger name="jdbc.audit" level="OFF" additivity="false">
+        <appender-ref ref="consoleAppender" />
+    </logger>
+
+    <logger name="com.zaxxer.hikari.pool" level="OFF">
+        <appender-ref ref="consoleAppender" />
+    </logger>
+
+
+    <!--root:特殊的logger,是根logger,level指定info-->
+    <root level="info">
+        <appender-ref ref="consoleAppender"/>
+    </root>
+</configuration>

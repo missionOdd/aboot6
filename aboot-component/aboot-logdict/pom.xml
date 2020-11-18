@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright © 2019-2020  Whale Cloud, Inc. All Rights Reserved.
+  ~
+  ~ Notice: Whale Cloud Inc copyrights this specification.
+  ~ No part of this specification may be reproduced in any form or means,
+  ~  without the prior written consent of Whale Cloud Inc.
+  ~
+  -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>aboot-component</artifactId>
+        <groupId>com.wteam</groupId>
+        <version>0.0.6</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.wteam.component</groupId>
+    <artifactId>aboot-logdict</artifactId>
+    <name>日志模块</name>
+    <dependencies>
+        <dependency>
+            <groupId>com.wteam</groupId>
+            <artifactId>aboot-common</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+    </dependencies>
+</project>

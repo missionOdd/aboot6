@@ -1,0 +1,77 @@
+spring:
+  profiles:
+    active: @profileActive@
+  jackson:
+    time-zone: Asia/Shanghai
+  data:
+    redis:
+      repositories:
+        enabled: false
+  freemarker:
+    # 检查模板路径是否存在
+    check-template-location: false
+  #配置 Jpa
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+    open-in-view: true
+  mvc:
+    servlet:
+      load-on-startup: 1
+
+server:
+  servlet:
+    encoding:
+      force: true
+      charset: UTF-8
+
+# log
+logging:
+  file:
+    path: logs
+
+#密码加密传输，前端公钥加密，后端私钥解密
+rsa:
+  public-key: MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCiR+TyuZ0xfiBM0JuaQ49BG+pM
+    jwJYzzeliGbHB0UAgf/G7Y5pMk9VbudyAWDZjinoRSgSTMWgK6X0rkpO4T1bsMzm
+    MR0jgc6qQaRbzr2AHB9FsUIoRDjCekRK/ScmvSg80o361/jLo2grG7eUrjwyziuE
+    1jLZgtEAoFZ+PaStjQIDAQAB
+
+  private-key: MIICdwIBADANBgkqhkiG9w0BAQEFAASCAmEwggJdAgEAAoGBAKJH5PK5nTF+IEzQ
+    m5pDj0Eb6kyPAljPN6WIZscHRQCB/8btjmkyT1Vu53IBYNmOKehFKBJMxaArpfSu
+    Sk7hPVuwzOYxHSOBzqpBpFvOvYAcH0WxQihEOMJ6REr9Jya9KDzSjfrX+MujaCsb
+    t5SuPDLOK4TWMtmC0QCgVn49pK2NAgMBAAECgYAvYGfhyPiwY08QvfI/hivDaV/s
+    u++Gd/CZ/glrX57weANxUxc5dPueSIN/UBGzUgLAEbiSJyGnEjcgCOYewzlDHYL4
+    7UxF4eXJc1lXP7e1E2ZHWXUHW87DxOGT2+jNXhGgXnhatHZP6b+WwBZJzB+iB1eT
+    M3X8dYDeN82FuPAEwQJBAM8aDOl7ufQY9ptJTC+OBVOdZ74wo5ZOhpzASxz9knLd
+    6y3iK/twjlkBG0fu52Z/PFRQ0eV7LeZyu5r+84Fgi70CQQDImLYxmrTeD62BrxDy
+    FrPcaXqDPxtCpUrQxfCTZHKZ3IQ+xca+AxpoeWLC0UgiluUD8QJ1EfW3WfObmmUX
+    XF4RAkEAza+gvU9Nmxoj6ow8p0pVDftZ6rGh9wkcdpggwbUx+vVeut5TMlFSfyEz
+    OBkVJ14cy9zM6i6Roru2ibTGoWsCvQJAHiFyHHlUeZZ5RWV6ciKe2ZiuYlB0U8po
+    NnvE6x7HZ/0LkDI87AWjTdYN052D7E4mEDV/XP5ZnjTQtqq2TI//QQJBAMTcQIA8
+    LzxkJJNoKtLInmjKSIiHRh227jg4Jljdv8OAOHlX8nhHhsO70PgNgs2OAamhu2J/
+    i/S+eWyEuFmaTko=
+
+#图床token
+smms:
+  token: 3UU12obo6lFBex8dYX81jFYObMOuWkx8
+
+
+task:
+  pool:
+    # 核心线程池大小
+    core-pool-size: 10
+    # 最大线程数
+    max-pool-size: 30
+    # 活跃时间
+    keep-alive-seconds: 60
+    # 队列容量
+    queue-capacity: 50
+
+
+#登录图形验证码有效时间/分钟
+login-code:
+  expiration: 2
+
+

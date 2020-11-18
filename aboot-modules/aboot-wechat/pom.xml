@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright © 2019-2020  Whale Cloud, Inc. All Rights Reserved.
+  ~
+  ~ Notice: Whale Cloud Inc copyrights this specification.
+  ~ No part of this specification may be reproduced in any form or means,
+  ~  without the prior written consent of Whale Cloud Inc.
+  ~
+  -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>aboot-modules</artifactId>
+        <groupId>com.wteam</groupId>
+        <version>0.0.6</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.wteam.modules</groupId>
+    <artifactId>aboot-wechat</artifactId>
+    <name>微信模块</name>
+    <properties>
+        <wxjava.version>3.6.0</wxjava.version>
+
+    </properties>
+
+    <dependencies>
+        <!-- 同时需要common模块和logging模块只需要引入logging模块即可 -->
+        <dependency>
+            <groupId>com.wteam.component</groupId>
+            <artifactId>aboot-logdict</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.binarywang</groupId>
+            <artifactId>weixin-java-pay</artifactId>
+            <version>${wxjava.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.binarywang</groupId>
+            <artifactId>weixin-java-miniapp</artifactId>
+            <version>${wxjava.version}</version>
+        </dependency>
+    </dependencies>
+</project>

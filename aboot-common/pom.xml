@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright © 2019-2020  Whale Cloud, Inc. All Rights Reserved.
+  ~
+  ~ Notice: Whale Cloud Inc copyrights this specification.
+  ~ No part of this specification may be reproduced in any form or means,
+  ~  without the prior written consent of Whale Cloud Inc.
+  ~
+  -->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <artifactId>aboot</artifactId>
+        <groupId>com.wteam</groupId>
+        <version>0.0.6</version>
+    </parent>
+
+    <artifactId>aboot-common</artifactId>
+    <name>通用模块</name>
+    <properties>
+        <hutool.version>5.3.10</hutool.version>
+        <ip2region.version>1.7.2</ip2region.version>
+        <useragent.version>1.20</useragent.version>
+        <poi.version>3.17</poi.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-autoconfigure</artifactId>
+        </dependency>
+
+        <!--工具包-->
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+            <version>${hutool.version}</version>
+        </dependency>
+
+        <!--poi-->
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+            <version>${poi.version}</version>
+        </dependency>
+
+        <!--poi-ooxml-->
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>${poi.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml-schemas</artifactId>
+            <version>${poi.version}</version>
+        </dependency>
+        <!--ip2region 根据ip获取地址-->
+        <dependency>
+            <groupId>org.lionsoul</groupId>
+            <artifactId>ip2region</artifactId>
+            <version>${ip2region.version}</version>
+        </dependency>
+        <!--UserAgentUtils 获取浏览器信息 -->
+        <dependency>
+            <groupId>eu.bitwalker</groupId>
+            <artifactId>UserAgentUtils</artifactId>
+            <version>${useragent.version}</version>
+        </dependency>
+
+    </dependencies>
+
+
+</project>

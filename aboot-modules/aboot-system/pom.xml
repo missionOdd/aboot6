@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright © 2019-2020  Whale Cloud, Inc. All Rights Reserved.
+  ~
+  ~ Notice: Whale Cloud Inc copyrights this specification.
+  ~ No part of this specification may be reproduced in any form or means,
+  ~  without the prior written consent of Whale Cloud Inc.
+  ~
+  -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <artifactId>aboot-modules</artifactId>
+        <groupId>com.wteam</groupId>
+        <version>0.0.6</version>
+    </parent>
+
+    <groupId>com.wteam.modules</groupId>
+    <artifactId>aboot-system</artifactId>
+    <name>核心模块</name>
+    <description>System for ABoot</description>
+   <!-- <packaging>war</packaging>-->
+    <properties>
+        <jjwt.version>0.11.2</jjwt.version>
+    </properties>
+
+    <dependencies>
+
+
+        <!--    tools 模块包含了 common 、logdict 、storage 模块    -->
+        <dependency>
+            <groupId>com.wteam.component</groupId>
+            <artifactId>aboot-tools</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+
+
+        <dependency>
+            <groupId>com.wteam.modules</groupId>
+            <artifactId>aboot-wechat</artifactId>
+            <version>${project.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.wteam</groupId>
+                    <artifactId>aboot-tools</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+
+
+        <!--jwt-->
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-api</artifactId>
+            <version>${jjwt.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-impl</artifactId>
+            <version>${jjwt.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-jackson</artifactId>
+            <version>${jjwt.version}</version>
+        </dependency>
+
+        <!--flyway 迭代-->
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+            <version>${flyway.version}</version>
+        </dependency>
+
+        <!-- quartz -->
+        <dependency>
+            <groupId>org.quartz-scheduler</groupId>
+            <artifactId>quartz</artifactId>
+        </dependency>
+
+    </dependencies>
+
+
+</project>

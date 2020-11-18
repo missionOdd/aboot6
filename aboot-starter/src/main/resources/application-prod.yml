@@ -1,0 +1,114 @@
+## 配置端口号
+server:
+  port: 8800
+# 文件存储路径
+file:
+  url-prefix: /file/ #"/"结尾 自定义上传时字段无意义
+  path: /home/abootfile
+  maxSize: 100   # 文件大小 /M
+
+spring:
+  servlet:
+    multipart:
+      max-file-size: 1024MB
+      max-request-size: 1024MB
+  datasource:
+    ## 配置数据源
+    url: jdbc:mysql://127.0.0.1:3306/aboot5_beta?characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    platform: mysql
+    type: com.zaxxer.hikari.HikariDataSource
+    tomcat:
+      initSQL: SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci
+    hikari:
+      ##  Hikari 连接池配置 ------ 详细配置请访问：https://github.com/brettwooldridge/HikariCP
+      ## 最小空闲连接数量
+      minimum-idle: 5
+      ## 连接池最大连接数，默认是10
+      maximum-pool-size: 15
+      ## 此属性控制从池返回的连接的默认自动提交行为,默认值：true
+      auto-commit: true
+      ## 空闲连接存活最大时间，默认600000（10分钟）
+      idle-timeout: 180000
+      ## 连接池母子
+      pool-name: DatebookHikariCP
+      ## 此属性控制池中连接的最长生命周期，值0表示无限生命周期，默认1800000即30分钟
+      max-lifetime: 1800000
+      ## 数据库连接超时时间,默认30秒，即30000
+      connection-timeout: 10000
+      connection-test-query: SELECT 1
+      connection-init-sql: SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci
+  #配置 Jpa
+  jpa:
+    hibernate:
+      # 生产环境设置成 none，避免程序运行时自动更新数据库结构
+      ddl-auto: none
+  flyway:
+    # 启用或禁用 flyway
+    enabled: false
+    # flyway 的 clean 命令会删除指定 schema 下的所有 table, 生产务必禁掉。这个默认值是 false 理论上作为默认配置是不科学的。
+    clean-disabled: true
+    # SQL 脚本的目录,多个路径使用逗号分隔 默认值 classpath:db/migration
+    locations: classpath:db/migration
+    #  metadata 版本控制信息表 默认 flyway_schema_history
+    table: flyway_schema
+    # 如果没有 flyway_schema 这个 metadata 表， 在执行 flyway migrate 命令之前, 必须先执行 flyway baseline 命令
+    # 设置为 true 后 flyway 将在需要 baseline 的时候, 自动执行一次 baseline。
+    baseline-on-migrate: true
+    # 指定 baseline 的版本号,默认值为 1, 低于该版本号的 SQL 文件, migrate 时会被忽略
+    baseline-version: 1
+    # 字符编码 默认 UTF-8
+    encoding: UTF-8
+    # 是否允许不按顺序迁移 开发建议 true  生产建议 false
+    out-of-order: false
+    # 需要 flyway 管控的 schema list,这里我们配置为flyway  缺省的话, 使用spring.datasource.url 配置的那个 schema,
+    # 可以指定多个schema, 但仅会在第一个schema下建立 metadata 表, 也仅在第一个schema应用migration sql 脚本.
+    # 但flyway Clean 命令会依次在这些schema下都执行一遍. 所以 确保生产 spring.flyway.clean-disabled 为 true
+    schemas: aboot5_beta
+    # 执行迁移时是否自动调用验证   当你的 版本不符合逻辑 比如 你先执行了 DML 而没有 对应的DDL 会抛出异常
+    validate-on-migrate: true
+
+  #配置 redis
+  redis:
+    database: 5
+    host: 127.0.0.1
+    port: 6379
+    password:
+    timeout: 5000
+    jedis:
+      pool:
+        #最大连接数
+        max-active: 8
+        #最大阻塞等待时间(负数表示没限制)
+        max-wait: -1
+        #最大空闲
+        max-idle: 8
+        #最小空闲
+        min-idle: 0
+
+#jwt
+jwt:
+  header: Authorization
+  # 必须使用最少88位的Base64对该令牌进行编码
+  secret: ZmQyZGI5NjQ0MDQwY2I4MjMxY2Y3ZmI3MjdhN2ZmMjNhODViOTg1ZGE0NTBjMGM4NDA5NzYxMjdjOWMwYWRmZTBlZjlhNGY3ZTg4Y2U3YTE2ODVkZDQ5Y2Y3OGYwZWE3NzMzNWQ2YjFjZDc0NGMxZWU2MmQ3MjY1NzJmNTE0MzM=  # token 过期时间/毫秒 1小时 = 3600000 毫秒
+  expiration: 604800000
+  # 在线用户key
+  online-key: "online:"
+  # 验证码
+  code-key: "code-key:"
+  # 只允许一个设备登录
+  single-login: false
+
+# 是否允许permission生成
+permission:
+  generate: false
+
+#是否允许生成代码，生产环境设置为false
+generator:
+  enabled: false
+#是否开启 swagger-ui
+swagger:
+  enabled: true
+
