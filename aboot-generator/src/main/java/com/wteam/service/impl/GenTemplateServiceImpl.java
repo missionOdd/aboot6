@@ -71,7 +71,7 @@ public class GenTemplateServiceImpl implements GenTemplateService {
     public void update(GenTemplate resources) {
         GenTemplate genTemplate = genTemplateRepository.findById(resources.getId()).orElse(null);
         ValidUtil.notNull( genTemplate,GenTemplate.ENTITY_NAME,"id",resources.getId());
-        assert genTemplate != null;
+
         genTemplate.copy(resources);
         genTemplateRepository.save(genTemplate);
     }

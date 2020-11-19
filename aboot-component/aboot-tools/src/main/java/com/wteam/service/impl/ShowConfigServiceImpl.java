@@ -89,7 +89,7 @@ public class ShowConfigServiceImpl implements ShowConfigService {
     public void update(ShowConfig resources) {
         ShowConfig showConfig = showConfigRepository.findById(resources.getId()).orElse(null);
         ValidUtil.notNull( showConfig,ShowConfig.ENTITY_NAME,"id",resources.getId());
-        assert showConfig != null;
+
         showConfig.copy(resources);
         showConfigRepository.save(showConfig);
     }

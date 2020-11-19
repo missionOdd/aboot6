@@ -80,7 +80,7 @@ public class MenuServiceImpl implements MenuService {
         }
         Menu menu = menuRepository.findById(resources.getId()).orElse(null);
         ValidUtil.notNull(menu,Menu.ENTITY_NAME,"id",resources.getId());
-        assert menu != null;
+
 
         if(resources.getIFrame()) {
             if (!(resources.getPath().toLowerCase().startsWith("http://") || resources.getPath().toLowerCase().startsWith("https://"))) {

@@ -90,7 +90,7 @@ public class UserServiceImpl implements UserService {
     public void update(User resources) {
         User user=userRepository.findById(resources.getId()).orElse(null);
         ValidUtil.notNull(user,User.ENTITY_NAME,"id",resources.getId());
-        assert user != null;
+
         //账号校验
         if (StringUtils.isNotBlank(resources.getUsername())) {
             User user1=userRepository.findByUsername(resources.getUsername());
@@ -126,6 +126,7 @@ public class UserServiceImpl implements UserService {
         updateUser.setId(user.getId());
         updateUser.setUsername(resources.getUsername());
         updateUser.setNickname(resources.getNickname());
+        updateUser.setAvatar(resources.getAvatar());
         updateUser.setEnabled(resources.getEnabled());
         updateUser.setRoles(resources.getRoles());
         updateUser.setDept(resources.getDept());

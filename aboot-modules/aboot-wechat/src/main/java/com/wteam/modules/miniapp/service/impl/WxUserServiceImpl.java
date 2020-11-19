@@ -109,7 +109,7 @@ public class WxUserServiceImpl implements WxUserService {
         }
         WxUser wxUser = wxUserRepository.findById(resources.getUid()).orElse(null);
         ValidUtil.notNull( wxUser,WxUser.ENTITY_NAME,"id",resources.getUid());
-        assert wxUser != null;
+
         redisUtils.del("wxUser::id:"+resources.getUid());
         redisUtils.del("wxUser::openId:",wxUser.getOpenId());
         wxUser.copy(resources);

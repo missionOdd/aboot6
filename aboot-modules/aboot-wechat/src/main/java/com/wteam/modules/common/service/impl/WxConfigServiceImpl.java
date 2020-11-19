@@ -80,7 +80,7 @@ public class WxConfigServiceImpl implements WxConfigService {
         if (wxConfig1!=null&&!wxConfig1.getId().equals(resources.getId())) {
             throw new EntityExistException("微信应用AppId");
         }
-        assert wxConfig != null;
+
         WxMaConfiguration.cleanCache(wxConfig.getAppid());
         WxMaConfiguration.cleanCache(resources.getAppid());
         wxConfig.copy(resources);

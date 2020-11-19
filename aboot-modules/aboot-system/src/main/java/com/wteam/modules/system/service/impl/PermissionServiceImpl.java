@@ -81,7 +81,6 @@ public class PermissionServiceImpl implements PermissionService {
 
         Permission permission = permissionRepository.findById(resources.getId()).orElse(null);
         ValidUtil.notNull(permission,Permission.ENTITY_NAME,"id",resources.getId());
-        assert permission != null;
 
         Permission permission1 = permissionRepository.findByName(resources.getName());
         if (permission1 != null && !permission1.getId().equals(permission.getId())){

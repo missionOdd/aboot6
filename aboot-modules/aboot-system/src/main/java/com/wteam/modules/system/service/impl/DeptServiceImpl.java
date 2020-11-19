@@ -77,7 +77,7 @@ public class DeptServiceImpl  implements DeptService {
         }
         Dept dept = deptRepository.findById(resources.getId()).orElse(null);
         ValidUtil.notNull(dept,Dept.ENTITY_NAME,"id",resources.getId());
-        assert dept != null;
+
         resources.setId(dept.getId());
         // 旧的部门
         Long oldPid = dept.getParentId();

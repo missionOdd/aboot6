@@ -141,7 +141,7 @@ public class LocalStorageServiceImpl implements LocalStorageService {
     public void update(LocalStorage resources) {
         LocalStorage localStorage = localStorageRepository.findById(resources.getId()).orElse(null);
         ValidUtil.notNull( localStorage,LocalStorage.ENTITY_NAME,"id",resources.getId());
-        assert localStorage != null;
+
         localStorage.copy(resources);
         localStorageRepository.save(localStorage);
     }

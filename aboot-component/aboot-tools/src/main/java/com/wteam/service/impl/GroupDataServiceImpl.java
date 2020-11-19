@@ -92,7 +92,6 @@ public class GroupDataServiceImpl implements GroupDataService {
         }
         ValidUtil.notNull( groupData,GroupData.ENTITY_NAME,"id",resources.getId());
 
-        assert groupData != null;
         groupData.copy(resources);
         groupDataRepository.save(groupData);
     }

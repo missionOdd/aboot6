@@ -79,7 +79,6 @@ public class RoleServiceImpl implements RoleService {
     public void update(Role resources) {
         Role role = roleRepository.findById(resources.getId()).orElse(null);
         ValidUtil.notNull(role,Role.ENTITY_NAME,"id",resources.getId());
-        assert role != null;
 
         Role role1=roleRepository.findByName(resources.getName());
 
@@ -162,7 +161,6 @@ public class RoleServiceImpl implements RoleService {
     public void updatePermission(Role resources) {
         Role role = roleRepository.findById(resources.getId()).orElse(null);
         ValidUtil.notNull(role,Role.ENTITY_NAME,"id",resources.getId());
-        assert role != null;
 
         role.setPermissions(resources.getPermissions());
         //清理缓存
@@ -176,7 +174,7 @@ public class RoleServiceImpl implements RoleService {
     public void updateMenu(Role resources) {
         Role role = roleRepository.findById(resources.getId()).orElse(null);
         ValidUtil.notNull(role,Role.ENTITY_NAME,"id",resources.getId());
-        assert role != null;
+
         role.setMenus(resources.getMenus());
         roleRepository.save(role);
 
