@@ -48,9 +48,7 @@ public class RedisServiceImpl implements RedisService {
         }
         for (String s : redisUtils.scan(key)) {
             //过滤掉权限的缓存
-            if (s.contains(CacheKey.USER_NAME)){
-                continue;
-            }
+
             Object o = redisUtils.get(s);
             RedisVo redisVo = new RedisVo(s, ObjectUtil.isNotNull(o)?o.toString():"");
             redisVos.add(redisVo);

@@ -210,7 +210,6 @@ public class WxUserServiceImpl implements WxUserService {
     }
 
     @Override
-    @Cacheable(key = "'openId:'+#p0")
     public WxUser findByOpenId(String openid) {
         return wxUserRepository.findByOpenId(openid).orElseGet(WxUser::new);
     }

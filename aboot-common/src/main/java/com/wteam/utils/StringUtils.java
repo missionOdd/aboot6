@@ -309,10 +309,47 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
         Matcher emojiMatcher = emoji.matcher(str);
         if (emojiMatcher.find()) {
             // 将转化的获取的表情转换为□
-            str = emojiMatcher.replaceAll("□");
+            str = emojiMatcher.replaceAll(" ");
             return str;
         }
         return str;
+    }
+
+
+    /**
+     * 清除掉字符串前后的特殊字符
+     * @param content  原字符串
+     * @param spliter  要清除的字符串,注意只有一位，如"((1,2,3,4))",spliter也只为"("
+     * @return /
+     */
+    public static String replaceHeadAndEndCharToArray(String content, String spliter){
+        if(content.isEmpty() || spliter.isEmpty()){
+            return content;
+        }
+        //要匹配替换正则表达式的特殊字符需要在前面加\进行转义
+        if(spliter.equals("*")
+                || spliter.equals("\\")
+                || spliter.equals("^")
+                || spliter.equals("$")
+                || spliter.equals("(")
+                || spliter.equals(")")
+                || spliter.equals("+")
+                || spliter.equals(".")
+                || spliter.equals("[")
+                || spliter.equals("?")
+                || spliter.equals("{")
+                || spliter.equals("|")){
+            spliter = "\\\\" + spliter;
+        }
+        String rex = "^" + spliter + "*|" + spliter + "*$";
+        return "["+content.replaceAll(rex, "")+"]";
+    }
+
+    public static String toCommaSeparate(String content){
+        if(isBlank(content)){
+            return ",,";
+        }
+        return content.replaceAll("[\\[\\]]", ",");
     }
 
 }

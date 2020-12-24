@@ -30,7 +30,7 @@ public interface CacheKey {
      * 用户
      */
     String USER_ID = "user::id:";
-    String USER_NAME = "user::loadUserByUsername:";
+
     /**
      * 数据
      */

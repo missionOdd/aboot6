@@ -175,7 +175,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Cacheable(key = "'loadUserByUsername:'+#p0")
     public UserDTO findByName(String userName) {
         User user= null;
         if (ValidUtil.isEmail(userName)) {
@@ -195,7 +194,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void updatePass(String username, String pass) {
-        redisUtils.del(CacheKey.USER_NAME+username);
+
         flushCache(username);
         userRepository.updatePass(username,pass, Timestamp.valueOf(LocalDateTime.now()));
 
@@ -204,7 +203,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void updateAvatar(String username, String url) {
-        redisUtils.del(CacheKey.USER_NAME+username);
+
         flushCache(username);
         userRepository.updateAvatar(username,url);
 
@@ -278,8 +277,6 @@ public class UserServiceImpl implements UserService {
      */
     public void delCaches(Long id, String username) {
         redisUtils.del(CacheKey.USER_ID + id);
-        redisUtils.del(CacheKey.USER_NAME + username);
-        redisUtils.del("wxUser::openId:"+ username);
         flushCache(username);
     }
 
