@@ -4,7 +4,7 @@ server:
 # 文件存储路径
 file:
   url-prefix: /file/ #"/"结尾 自定义上传时字段无意义
-  path: /home/abootfile
+  base-path: /home/abootfile
   maxSize: 100   # 文件大小 /M
 
 spring:
