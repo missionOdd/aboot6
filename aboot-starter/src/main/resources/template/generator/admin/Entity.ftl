@@ -13,6 +13,7 @@ import javax.validation.constraints.*;
 </#if>
 <#if hasTimestamp>
 import java.time.*;
+import java.sql.Timestamp;
 </#if>
 <#if hasBigDecimal>
 import java.math.BigDecimal;
@@ -31,7 +32,6 @@ import cn.hutool.core.bean.copier.CopyOptions;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
-import javax.validation.constraints.*;
 
 /**
  * ${tableComment} 持久类.
@@ -58,14 +58,14 @@ public class ${className} extends BaseEntity{
      column.changeColumnName = 'updatedBy'><#else>
     <#if column.remark != ''>
     /** ${column.remark} */
-    @ApiModelProperty( "${column.remark}")
+    @ApiModelProperty("${column.remark}")
     </#if>
     <#if column.columnKey = 'PRI'>
     @Id
     <#if column.columnType = 'String'>
-    @NotBlank(groups = Update.class)
+    @NotBlank(groups = Update.class, groups = Create.class)
     <#else>
-    @NotNull(groups = Update.class)
+    @NotNull(groups = Update.class, groups = Create.class)
     </#if>
     <#if auto>
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -74,9 +74,9 @@ public class ${className} extends BaseEntity{
     @Column(name = "${column.columnName}"<#if column.columnKey = 'UNI'>, unique = true</#if><#if column.istNotNull && column.columnKey != 'PRI'>, nullable = false</#if>)
     <#if column.istNotNull && column.columnKey != 'PRI'>
     <#if column.columnType = 'String'>
-    @NotBlank(message = "${column.remark}不能为空")
+    @NotBlank(message = "${column.remark}不能为空", groups = Create.class)
     <#else>
-    @NotNull(message = "${column.remark}不能为空")
+    @NotNull(message = "${column.remark}不能为空", groups = Create.class)
     </#if>
     </#if>
     <#if column.dateAnnotation??>

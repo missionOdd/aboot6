@@ -14,6 +14,7 @@ import com.wteam.annotation.Log;
 import com.wteam.annotation.rest.AnonymousPostMapping;
 import com.wteam.domain.vo.JwtUser;
 import com.wteam.domain.vo.R;
+import com.wteam.exception.BadRequestException;
 import com.wteam.modules.miniapp.domain.WxUser;
 import com.wteam.modules.miniapp.domain.dto.WxLoginDTO;
 import com.wteam.modules.miniapp.service.WxUserService;
@@ -90,6 +91,10 @@ public class WxAuthController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         //获取jwt
         final JwtUser jwtUser = (JwtUser) authentication.getPrincipal();
+        // 是否冻结
+        if (!jwtUser.isEnabled()) {
+            throw new BadRequestException("该账户已被冻结,请联系管理员");
+        }
         // 生成令牌
         String token = jwtTokenUtil.createToken(jwtUser);
 
@@ -122,20 +127,20 @@ public class WxAuthController {
         }
         String openId = wxUser.getOpenId();
         User user =new User();
-        user.setUsername(openId);
-        user.setNickname(wxUser.getNickName());
-        user.setAvatar(wxUser.getAvatarUrl());
-        user.setSex(wxUser.getGender());
-        user.setPhone(wxUser.getPhoneNumber());
-        user.setLoginType(LoginType.LOGIN_WX);
-        user.setEnabled(true);
         user.setLastLoginTime(Timestamp.valueOf(LocalDateTime.now()));
-        user.setRoles(Sets.newHashSet(new Role(2L)));
 
         //判断是否注册
         if (wxUser.getUid()==null) {
             //创建
+            user.setUsername(openId);
             user.setPassword(passwordEncoder.encode(openId));
+            user.setNickname(wxUser.getNickName());
+            user.setAvatar(wxUser.getAvatarUrl());
+            user.setSex(wxUser.getGender());
+            user.setPhone(wxUser.getPhoneNumber());
+            user.setLoginType(LoginType.LOGIN_WX);
+            user.setEnabled(true);
+            user.setRoles(Sets.newHashSet(new Role(2L)));
             UserDTO userDTO = userService.create(user);
             wxUser.setUid(userDTO.getId());
             wxUserService.create(wxUser);

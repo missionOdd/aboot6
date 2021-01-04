@@ -28,9 +28,7 @@ import cn.hutool.core.util.IdUtil;
 import com.wteam.utils.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.cache.annotation.*;
 import lombok.RequiredArgsConstructor;
@@ -57,14 +55,14 @@ public class ${className}ServiceImpl implements ${className}Service {
     private final RedisUtils redisUtils;
 
     @Override
-    public Map<String,Object> queryAll(${className}QueryCriteria criteria, Pageable pageable){
-        Page<${className}> page = ${changeClassName}Repository.findAll((root, criteriaQuery, criteriaBuilder) ->  QueryHelper.andPredicate(root, criteria, criteriaBuilder), pageable);
+    public Map<String, Object> queryAll(${className}QueryCriteria criteria, Pageable pageable) {
+        Page<${className}> page = ${changeClassName}Repository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelper.andPredicate(root, criteria, criteriaBuilder), pageable);
         return PageUtil.toPage(page.map(${changeClassName}Mapper::toDto));
     }
 
     @Override
-    public List<${className}DTO> queryAll(${className}QueryCriteria criteria){
-        return ${changeClassName}Mapper.toDto(${changeClassName}Repository.findAll((root, criteriaQuery, criteriaBuilder) ->  QueryHelper.andPredicate(root,criteria,criteriaBuilder)));
+    public List<${className}DTO> queryAll(${className}QueryCriteria criteria) {
+        return ${changeClassName}Mapper.toDto(${changeClassName}Repository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelper.andPredicate(root,criteria,criteriaBuilder)));
     }
 
     @Override
@@ -102,7 +100,7 @@ public class ${className}ServiceImpl implements ${className}Service {
     @Transactional(rollbackFor = Exception.class)
     public void update(${className} resources) {
         ${className} ${changeClassName} = ${changeClassName}Repository.findById(resources.get${pkCapitalColName}()).orElse(null);
-        ValidUtil.notNull(${changeClassName}, ${className}.ENTITY_NAME, "id",resources.get${pkCapitalColName}());
+        ValidUtil.notNull(${changeClassName}, ${className}.ENTITY_NAME, "id", resources.get${pkCapitalColName}());
 
     <#if hasUNI>
         ${className} ${changeClassName}1 = null;

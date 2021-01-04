@@ -42,10 +42,6 @@ public class UserQueryCriteria implements Serializable {
     @Query(type = Query.Type.INNER_LIKE)
     private String phone;
 
-    @ApiModelProperty("厂家")
-    @Query
-    private Long merId;
-
     @ApiModelProperty("状态, true 激活, false 锁定")
     @Query
     private Boolean enabled;

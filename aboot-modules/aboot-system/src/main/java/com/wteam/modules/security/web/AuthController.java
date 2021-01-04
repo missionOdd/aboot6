@@ -100,6 +100,10 @@ public class AuthController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         //获取jwt
         final JwtUser jwtUser = (JwtUser) authentication.getPrincipal();
+        // 是否冻结
+        if (!jwtUser.isEnabled()) {
+            throw new BadRequestException("该账户已被冻结,请联系管理员");
+        }
         // 生成令牌
         String token = jwtTokenUtil.createToken(jwtUser);
 

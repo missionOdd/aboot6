@@ -57,6 +57,7 @@ import static com.wteam.utils.PathUtil.fileUrlPrefix;
 
 /**
  * 微信用户
+ *
  * @author mission
  * @since 2020/02/04 3:58
  */
@@ -64,7 +65,7 @@ import static com.wteam.utils.PathUtil.fileUrlPrefix;
 @Service
 @CacheConfig(cacheNames = "wxUser")
 @RequiredArgsConstructor
-@Transactional( readOnly = true, rollbackFor = Exception.class)
+@Transactional(readOnly = true, rollbackFor = Exception.class)
 public class WxUserServiceImpl implements WxUserService {
 
     private final WxUserRepository wxUserRepository;
@@ -74,21 +75,21 @@ public class WxUserServiceImpl implements WxUserService {
     private final RedisUtils redisUtils;
 
     @Override
-    public Map<String,Object> queryAll(WxUserQueryCriteria criteria, Pageable pageable){
-        Page<WxUser> page = wxUserRepository.findAll((root, criteriaQuery, criteriaBuilder) ->  QueryHelper.andPredicate(root,criteria,criteriaBuilder),pageable);
+    public Map<String, Object> queryAll(WxUserQueryCriteria criteria, Pageable pageable) {
+        Page<WxUser> page = wxUserRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelper.andPredicate(root, criteria, criteriaBuilder), pageable);
         return PageUtil.toPage(page.map(wxUserMapper::toDto));
     }
 
     @Override
-    public List<WxUserDTO> queryAll(WxUserQueryCriteria criteria){
-        return wxUserMapper.toDto(wxUserRepository.findAll((root, criteriaQuery, criteriaBuilder) ->  QueryHelper.andPredicate(root,criteria,criteriaBuilder)));
+    public List<WxUserDTO> queryAll(WxUserQueryCriteria criteria) {
+        return wxUserMapper.toDto(wxUserRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelper.andPredicate(root, criteria, criteriaBuilder)));
     }
 
     @Override
     @Cacheable(key = "'id:'+#p0")
     public WxUserDTO findDTOById(Long uid) {
         WxUser wxUser = wxUserRepository.findById(uid).orElse(null);
-        ValidUtil.notNull(wxUser,WxUser.ENTITY_NAME,"uid",uid);
+        ValidUtil.notNull(wxUser, WxUser.ENTITY_NAME, "uid", uid);
         return wxUserMapper.toDto(wxUser);
     }
 
@@ -105,26 +106,26 @@ public class WxUserServiceImpl implements WxUserService {
     @Transactional(rollbackFor = Exception.class)
     public void update(WxUser resources) {
         if (!resources.getUid().equals(findByOpenId(resources.getOpenId()).getUid())) {
-            throw new BadRequestException(WxUser.ENTITY_NAME+"已存在");
+            throw new BadRequestException(WxUser.ENTITY_NAME + "已存在");
         }
         WxUser wxUser = wxUserRepository.findById(resources.getUid()).orElse(null);
-        ValidUtil.notNull( wxUser,WxUser.ENTITY_NAME,"id",resources.getUid());
+        ValidUtil.notNull(wxUser, WxUser.ENTITY_NAME, "id", resources.getUid());
 
-        redisUtils.del("wxUser::id:"+resources.getUid());
-        redisUtils.del("wxUser::openId:",wxUser.getOpenId());
+        redisUtils.del("wxUser::id:" + resources.getUid());
+        redisUtils.del("wxUser::openId:", wxUser.getOpenId());
         wxUser.copy(resources);
         wxUserRepository.save(wxUser);
     }
 
     @Override
-    @CacheEvict(allEntries=true)
+    @CacheEvict(allEntries = true)
     @Transactional(rollbackFor = Exception.class)
     public void deleteAll(Long[] ids) {
         redisUtils.delByKeys("wxUser::id:", Sets.newHashSet(ids));
         List<WxUser> wxUsers = wxUserRepository.findAllByUidIn(Sets.newHashSet(ids));
-        redisUtils.del("wxUser::openId:",wxUsers.stream().map(WxUser::getOpenId).collect(Collectors.joining()));
+        redisUtils.del("wxUser::openId:", wxUsers.stream().map(WxUser::getOpenId).collect(Collectors.joining()));
         for (Long id : ids) {
-             wxUserRepository.findById(id);
+            wxUserRepository.findById(id);
             wxUserRepository.logicDelete(id);
         }
     }
@@ -133,7 +134,7 @@ public class WxUserServiceImpl implements WxUserService {
     public void download(List<WxUserDTO> queryAll, HttpServletResponse response) throws IOException {
         List<Map<String, Object>> list = new ArrayList<>();
         for (WxUserDTO wxUser : queryAll) {
-            Map<String,Object> map = new LinkedHashMap<>();
+            Map<String, Object> map = new LinkedHashMap<>();
             map.put("平台ID", wxUser.getOpenId());
             map.put("昵称", wxUser.getNickname());
             map.put("头像", wxUser.getAvatar());
@@ -152,42 +153,51 @@ public class WxUserServiceImpl implements WxUserService {
     public WxUser load(WxLoginDTO wxLoginDTO) {
         WxUser wxUser = null;
         try {
-            WxMaService maService = WxMaConfiguration
-                    .getMaService(wxLoginDTO.getAppid());
-            WxMaUserService wxMaUserService =maService.getUserService();
+            WxMaService maService = WxMaConfiguration.getMaService(wxLoginDTO.getAppid());
+            WxMaUserService wxMaUserService = maService.getUserService();
             WxMaJscode2SessionResult sessionInfo = maService.jsCode2SessionInfo(wxLoginDTO.getCode());
             wxUser = findByOpenId(sessionInfo.getOpenid());
             String sessionKey = sessionInfo.getSessionKey();
             log.info(sessionKey);
             wxUser.setAppId(wxLoginDTO.getAppid());
-            wxUser.setNickName("用户"+ RandomUtil.randomNumbers(6));
+            wxUser.setNickName("用户" + RandomUtil.randomNumbers(6));
 
             WxLoginDTO.RawData userInfoRaw = wxLoginDTO.getUserInfo();
             WxLoginDTO.RawData phoneInfoRaw = wxLoginDTO.getPhoneInfo();
 
-            WxMaUserInfo userInfo =wxLoginDTO.getWxUser();
-            if (userInfo == null&&userInfoRaw!=null) {
-                userInfo = wxMaUserService.getUserInfo(sessionKey, userInfoRaw.getEncryptedData(), userInfoRaw.getIv());
+            WxMaUserInfo userInfo = wxLoginDTO.getWxUser();
+            if (userInfoRaw != null) {
+                try {
+                    userInfo = wxMaUserService.getUserInfo(sessionKey, userInfoRaw.getEncryptedData(), userInfoRaw.getIv());
+                } catch (Exception ignored){
+                }
             }
             if (userInfo != null) {
                 //表情过滤
                 userInfo.setNickName(StringUtils.filterEmoji(userInfo.getNickName()));
-                //头像保存到本地
-                URL url = new URL(userInfo.getAvatarUrl());
-                InputStream stream = URLUtil.getStream(url);
-                String fileName = IdUtil.simpleUUID() + ".jpg";
-                String dest = basePath() + "avatar" + File.separator + fileName;
-                FileUtil.writeFromStream(stream,dest);
-                userInfo.setAvatarUrl(StringUtils.join( fileUrlPrefix(),"avatar", "/",fileName));
+                try {
+                    //头像保存到本地
+                    URL url = new URL(userInfo.getAvatarUrl());
+                    InputStream stream = URLUtil.getStream(url);
+                    String fileName = IdUtil.simpleUUID() + ".jpg";
+                    String dest = basePath() + "avatar" + File.separator + fileName;
+                    FileUtil.writeFromStream(stream, dest);
+                    userInfo.setAvatarUrl(StringUtils.join(fileUrlPrefix(), "avatar", "/", fileName));
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
                 wxUser.copy(userInfo);
             }
 
             wxUser.setOpenId(sessionInfo.getOpenid());
             if (phoneInfoRaw != null) {
-                WxMaPhoneNumberInfo phoneInfo = wxMaUserService.getPhoneNoInfo(sessionKey, phoneInfoRaw.getEncryptedData(), phoneInfoRaw.getIv());
-                wxUser.copy(phoneInfo);
+                try {
+                    WxMaPhoneNumberInfo phoneInfo = wxMaUserService.getPhoneNoInfo(sessionKey, phoneInfoRaw.getEncryptedData(), phoneInfoRaw.getIv());
+                    wxUser.copy(phoneInfo);
+                } catch (Exception ignored){
+                }
             }
-        } catch (WxErrorException | MalformedURLException e) {
+        } catch (WxErrorException e) {
             e.printStackTrace();
             throw new BadRequestException("登录失败");
         }

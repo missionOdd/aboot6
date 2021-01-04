@@ -69,7 +69,7 @@ public class ${className}Controller {
     @ApiOperation(value = "新增${tableComment}")
     @PostMapping(value = "/add")
     @PreAuthorize("@R.check('${upperCaseClassName}:all', '${upperCaseClassName}:add')")
-    public R create(@Validated @RequestBody ${className} resources){
+    public R create(@Validated(${className}.Create.class) @RequestBody ${className} resources){
         return R.ok(${changeClassName}Service.create(resources));
     }
 

@@ -42,10 +42,10 @@ public class PayServiceImpl implements PayService {
         } catch (WxPayException e) {
             e.printStackTrace();
             long time =System.currentTimeMillis()-startTime;
+            payLog.setTransactionId(request.getOutTradeNo());
             payLog.setTime(time);
             payLog.setAppId(request.getAppid());
             payLog.setAppOrderId(request.getOutTradeNo());
-            payLog.setExceptionDetail(e.getCustomErrorMsg());
             payLog.setUsername(request.getOpenid());
             payLog.setMethod(httpRequest.getMethod());
             payLog.setParams(request.toString());
@@ -74,10 +74,10 @@ public class PayServiceImpl implements PayService {
         } catch (WxPayException e) {
             e.printStackTrace();
             long time =System.currentTimeMillis()-startTime;
+            payLog.setTransactionId(tradeNo);
             payLog.setTime(time);
             payLog.setAppId(appid);
             payLog.setAppOrderId(tradeNo);
-            payLog.setExceptionDetail(e.getCustomErrorMsg());
             payLog.setUsername("系统");
             payLog.setMethod("post");
             payLog.setParams(tradeNo);

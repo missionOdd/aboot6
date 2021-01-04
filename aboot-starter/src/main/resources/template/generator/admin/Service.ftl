@@ -27,47 +27,47 @@ public interface ${className}Service{
     /**
      * 查询数据分页
      *
-     * @param criteria /
-     * @param pageable /
-     * @return Map<String,Object> /
+     * @param criteria 查询条件
+     * @param pageable 分页
+     * @return Map<String,Object> {"content": List查询结果, "totalElements": 符合查询条件的数量}
      */
     Map<String,Object> queryAll(${className}QueryCriteria criteria, Pageable pageable);
 
     /**
      * 查询所有数据不分页
      *
-     * @param criteria /
-     * @return /
+     * @param criteria 查询条件
+     * @return 查询结果
      */
     List<${className}DTO> queryAll(${className}QueryCriteria criteria);
 
     /**
      * 根据ID查询
      *
-     * @param ${pkChangeColName} ID /
-     * @return ${className}DTO /
+     * @param ${pkChangeColName} ID
+     * @return ${className}DTO 查询结果
      */
     ${className}DTO findDTOById(${pkColumnType} ${pkChangeColName});
 
     /**
      * 创建
      *
-     * @param resources /
-     * @return ${className}DTO /
+     * @param resources 数据
+     * @return ${className}DTO 创建结果
      */
     ${className}DTO create(${className} resources);
 
     /**
      * 编辑
      *
-     * @param resources /
+     * @param resources 数据
      */
     void update(${className} resources);
 
     /**
      * 多选删除
      *
-     * @param ids /
+     * @param ids id集合
      */
     void deleteAll(Set<${pkColumnType}> ids);
 
