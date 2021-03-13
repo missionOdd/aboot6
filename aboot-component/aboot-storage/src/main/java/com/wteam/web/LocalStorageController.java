@@ -60,7 +60,7 @@ public class LocalStorageController {
 
     //@Log("上传文件存储")
     @ApiOperation(value = "上传文件存储")
-    @PostMapping(value = "/upload")
+    @AnonymousPostMapping(value = "/upload")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "file", value = "文件", dataType = "File", allowMultiple = true),
             @ApiImplicitParam(name = "name",value ="文件名")
@@ -78,26 +78,6 @@ public class LocalStorageController {
     })
     public R uploadImage(@RequestParam(required = false) String name, @RequestParam("file") MultipartFile file){
         return R.ok(localStorageService.uploadImage(name,file));
-    }
-
-    //@Log("上传文件存储")
-    @ApiOperation(value = "上传文件存储")
-    @PostMapping(value = "/upload")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "file", value = "文件", dataType = "File", allowMultiple = true)
-    })
-    public R upload(@RequestParam("file") MultipartFile file){
-        return R.ok(localStorageService.create(null, file));
-    }
-
-    //@Log("上传文件存储")
-    @ApiOperation(value = "上传图片存储")
-    @AnonymousPostMapping(value = "/uploadImg")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "file", value = "文件", dataType = "File", allowMultiple = true)
-    })
-    public R uploadImage(@RequestParam("file") MultipartFile file){
-        return R.ok(localStorageService.uploadImage(null, file));
     }
 
     @ApiOperation(value = "修改存储")
