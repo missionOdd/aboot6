@@ -63,9 +63,9 @@ public class ${className} extends BaseEntity{
     <#if column.columnKey = 'PRI'>
     @Id
     <#if column.columnType = 'String'>
-    @NotBlank(groups = Update.class, groups = Create.class)
+    @NotBlank(groups = Update.class)
     <#else>
-    @NotNull(groups = Update.class, groups = Create.class)
+    @NotNull(groups = Update.class)
     </#if>
     <#if auto>
     @GeneratedValue(strategy = GenerationType.IDENTITY)
