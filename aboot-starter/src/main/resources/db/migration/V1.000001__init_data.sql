@@ -38,8 +38,8 @@ REPLACE INTO `sys_menu` VALUES (3, '角色管理', NULL, b'0', b'1', b'0', '/sys
 REPLACE INTO `sys_menu` VALUES (4, '权限管理', NULL, b'0', b'1', b'0', '/system/authority/index', 1, 0, '权限管理', '/home/authority_manage', '2019-07-26 17:41:34', 0, NULL, '2020-08-28 18:04:04', NULL);
 REPLACE INTO `sys_menu` VALUES (5, '菜单管理', NULL, b'0', b'1', b'0', '/system/menu/index', 1, 0, '菜单', '/home/menu_manage', '2019-07-26 17:41:52', 0, NULL, '2020-08-28 18:04:04', NULL);
 REPLACE INTO `sys_menu` VALUES (6, '字典管理', NULL, b'0', b'1', b'0', '/system/dictionary/index', 1, 0, '字典管理', '/home/dictionary_manage', '2019-07-26 17:42:12', 0, NULL, '2020-08-28 18:04:04', NULL);
-REPLACE INTO `sys_menu` VALUES (7, '部门管理', NULL, b'0', b'1', b'0', '/system/department/index', 1, 0, '部门管理', '/home/department_manage', '2019-07-26 17:42:33', 0, NULL, '2020-08-28 18:04:04', NULL);
-REPLACE INTO `sys_menu` VALUES (8, '岗位管理', NULL, b'0', b'1', b'0', '/system/station/index', 1, 0, '岗位图标', '/home/station_manage', '2019-07-26 17:43:04', 0, NULL, '2020-08-28 18:04:04', NULL);
+REPLACE INTO `sys_menu` VALUES (7, '部门管理', NULL, b'0', b'0', b'0', '/system/department/index', 1, 0, '部门管理', '/home/department_manage', '2019-07-26 17:42:33', 0, NULL, '2020-08-28 18:04:04', NULL);
+REPLACE INTO `sys_menu` VALUES (8, '岗位管理', NULL, b'0', b'0', b'0', '/system/station/index', 1, 0, '岗位图标', '/home/station_manage', '2019-07-26 17:43:04', 0, NULL, '2020-08-28 18:04:04', NULL);
 REPLACE INTO `sys_menu` VALUES (9, '日志管理', NULL, b'0', b'1', b'0', '', 0, 991, '日志管理', '', '2019-07-26 17:43:27', 0, NULL, '2020-08-28 18:04:04', NULL);
 REPLACE INTO `sys_menu` VALUES (10, '操作日志', NULL, b'0', b'1', b'0', '/log/operation_log/index', 9, 0, '操作_设置', '/home/operation_log', '2019-07-26 17:43:53', 0, NULL, '2020-08-28 18:04:04', NULL);
 REPLACE INTO `sys_menu` VALUES (11, '异常日志', NULL, b'0', b'1', b'0', '/log/exception_log/index', 9, 0, '异常', '/home/exception_log', '2019-07-26 17:44:24', 0, NULL, '2020-08-28 18:04:04', NULL);
@@ -47,7 +47,7 @@ REPLACE INTO `sys_menu` VALUES (12, '系统监控', NULL, b'0', b'1', b'0', '', 
 REPLACE INTO `sys_menu` VALUES (13, '系统缓存', NULL, b'0', b'1', b'0', '/monitor/redis_manage/index', 14, 1, '清除缓存', '/home/redis_manage', '2019-07-26 17:56:34', 0, NULL, '2020-09-12 10:49:58', NULL);
 REPLACE INTO `sys_menu` VALUES (14, '系统工具', NULL, b'0', b'1', b'0', '', 0, 993, '工具', '', '2019-07-26 20:53:33', 0, NULL, '2020-08-28 18:04:04', NULL);
 REPLACE INTO `sys_menu` VALUES (15, '平台介绍', NULL, b'0', b'0', b'0', '/introduction/index', 0, 999, '平台介绍', '/home/introduction', '2019-07-27 14:26:42', 0, NULL, '2020-08-28 18:04:04', NULL);
-REPLACE INTO `sys_menu` VALUES (16, '多级菜单', NULL, b'0', b'1', b'0', '', 0, 926, '菜单', '', '2019-07-31 12:06:26', 0, NULL, '2020-08-28 18:04:04', NULL);
+REPLACE INTO `sys_menu` VALUES (16, '多级菜单', NULL, b'0', b'0', b'0', '', 0, 926, '菜单', '', '2019-07-31 12:06:26', 0, NULL, '2020-08-28 18:04:04', NULL);
 REPLACE INTO `sys_menu` VALUES (17, '二级子菜单', NULL, b'0', b'1', b'0', '/menu_1/index', 16, 0, '菜单', '/home/menu_1', '2019-07-31 12:07:14', 0, NULL, '2020-09-12 10:42:24', NULL);
 REPLACE INTO `sys_menu` VALUES (18, '三级菜单', NULL, b'0', b'1', b'0', '', 16, 1, '菜单', '', '2019-07-31 12:07:46', 0, NULL, '2020-09-12 10:42:31', NULL);
 REPLACE INTO `sys_menu` VALUES (19, '三级子菜单', NULL, b'0', b'1', b'0', '/menu_2/index', 18, 0, '菜单', '/home/menu_2', '2019-07-31 12:08:35', 0, NULL, '2020-09-12 10:48:12', NULL);
@@ -55,12 +55,12 @@ REPLACE INTO `sys_menu` VALUES (20, '四级菜单', NULL, b'0', b'1', b'0', '', 
 REPLACE INTO `sys_menu` VALUES (21, '四级子菜单', NULL, b'0', b'1', b'0', '/menu_3/index', 20, 0, '菜单', '/home/menu_3', '2019-07-31 12:09:45', 0, NULL, '2020-09-12 10:43:01', NULL);
 REPLACE INTO `sys_menu` VALUES (22, '文件预览', NULL, b'0', b'1', b'0', '/common/file/index.vue', 24, 4, '文章分类', '/home/preview_file', '2019-08-02 11:06:24', 0, NULL, '2020-09-12 10:43:45', NULL);
 REPLACE INTO `sys_menu` VALUES (23, 'markdown', NULL, b'0', b'1', b'1', '/common/markdown/index', 24, 3, 'markdown', '/home/markdown', '2019-08-02 16:59:56', 0, NULL, '2020-09-12 10:43:45', NULL);
-REPLACE INTO `sys_menu` VALUES (24, '常用工具', NULL, b'0', b'1', b'0', '', 0, 925, 'running', '', '2019-08-02 18:48:46', 0, NULL, '2020-08-28 18:04:04', NULL);
+REPLACE INTO `sys_menu` VALUES (24, '常用工具', NULL, b'0', b'0', b'0', '', 0, 925, 'running', '', '2019-08-02 18:48:46', 0, NULL, '2020-08-28 18:04:04', NULL);
 REPLACE INTO `sys_menu` VALUES (25, '富文本', NULL, b'0', b'1', b'0', '/common/editor/index', 24, 2, '文章管理', '/home/editor', '2019-08-02 18:50:47', 0, NULL, '2020-09-12 10:43:49', NULL);
 REPLACE INTO `sys_menu` VALUES (26, '图标库', NULL, b'0', b'1', b'1', '/common/icon/index', 24, 1, 'iconfont', '/home/icon', '2019-08-02 18:54:09', 0, NULL, '2020-09-12 10:43:49', NULL);
 REPLACE INTO `sys_menu` VALUES (27, '个人中心', NULL, b'0', b'0', b'0', '/person/index', 0, 1, '个人中心', '/home/person', '2019-08-03 11:29:17', 0, NULL, '2020-08-28 18:04:04', NULL);
-REPLACE INTO `sys_menu` VALUES (28, '图表展示', NULL, b'0', b'1', b'0', '/dashboard/index', 0, 0, '图表', '/home/dashboard', '2019-08-04 20:10:01', 0, NULL, '2020-08-28 18:04:04', NULL);
-REPLACE INTO `sys_menu` VALUES (29, '定时任务', NULL, b'0', b'1', b'0', '/tools/mission/index', 14, 1, '任务', '/home/mission_manage', '2019-08-10 16:35:41', 0, NULL, '2020-09-12 10:44:16', NULL);
+REPLACE INTO `sys_menu` VALUES (28, '图表展示', NULL, b'0', b'0', b'0', '/dashboard/index', 0, 0, '图表', '/home/dashboard', '2019-08-04 20:10:01', 0, NULL, '2020-08-28 18:04:04', NULL);
+REPLACE INTO `sys_menu` VALUES (29, '定时任务', NULL, b'0', b'0', b'0', '/tools/mission/index', 14, 1, '任务', '/home/mission_manage', '2019-08-10 16:35:41', 0, NULL, '2020-09-12 10:44:16', NULL);
 REPLACE INTO `sys_menu` VALUES (30, '代码生成', NULL, b'0', b'1', b'0', '/tools/generator/index', 14, 3, 'dev', '/home/generator_code', '2019-09-26 19:22:41', 0, NULL, '2020-09-12 10:44:16', NULL);
 REPLACE INTO `sys_menu` VALUES (31, '存储管理', NULL, b'0', b'1', b'0', '/tools/file/index', 14, 4, '文件', '/home/file_manage', '2019-09-29 20:22:32', 0, NULL, '2020-09-12 10:44:16', NULL);
 REPLACE INTO `sys_menu` VALUES (32, '在线用户', NULL, b'0', b'1', b'0', '/monitor/online_user/index.vue', 12, 0, 'peoples', '/home/online_user', '2019-11-03 11:27:37', 0, NULL, '2020-09-12 10:44:24', NULL);
