@@ -58,6 +58,12 @@ public @interface Query {
      */
     String queryJPQL() default "";
 
+    /**
+     * 自定义子查询,写SQL语句，必须要设置参数
+     * 若多个参数,则filed的类型为Map<String,Object>,key是参数,value是值 注意:参数类型要对应正确
+     * 一旦指定使用自定义子查询，除了关联查询规则，该参数的其他规则失效
+     */
+    String querySQL() default "";
 
     enum Type {
         /**相等*/

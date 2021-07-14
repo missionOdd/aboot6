@@ -108,6 +108,8 @@ public class QueryHelper {
                     Join join = getJoin(root,q.joinName(),q.join());
                     //自定义JPQL查询处理
                     if (toJPQL(root, list, field, accessible, q, val, attributeName, join)) continue;
+                    //自定义SQL查询处理
+                    if (toSQL(root, list, field, accessible, q, val, attributeName, join)) continue;
                     //通用子查询处理
                     if (toSubQuery(root, cb, list, field, accessible, q, val, attributeName, fieldType, join)) continue;
                     //通用子查询处理
@@ -172,7 +174,31 @@ public class QueryHelper {
                     Map<String,Object> map =  (( Map<String,Object>) val);
                     map.forEach(queryJP::setParameter);
                 }else {
-                    queryJP.setParameter(1,val);
+                    queryJP.setParameter(field.getName(), val);
+                }
+                list.add(getExpression(attributeName,join,root).in(queryJP.getResultList()));
+            } catch (Exception e) {
+                log.error("[子查询SQL错误]"+e.getMessage(),e);
+            }
+            field.setAccessible(accessible);
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * 自定义原生SQL查询
+     */
+    private static <R> boolean toSQL(Root<R> root, List<Predicate> list, Field field, boolean accessible, Query q, Object val, String attributeName, Join join) {
+        String querySQL = q.querySQL();
+        if (isNotEmpty(querySQL)){
+            try {
+                javax.persistence.Query queryJP = SpringContextUtil.getBean(EntityManager.class).createNativeQuery(querySQL);
+                if (val instanceof Map) {
+                    Map<String,Object> map =  (( Map<String,Object>) val);
+                    map.forEach(queryJP::setParameter);
+                }else {
+                    queryJP.setParameter(field.getName(), val);
                 }
                 list.add(getExpression(attributeName,join,root).in(queryJP.getResultList()));
             } catch (Exception e) {

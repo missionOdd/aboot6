@@ -29,6 +29,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -229,7 +230,7 @@ public class FileUtil extends cn.hutool.core.io.FileUtil {
         cellStyle.setAlignment(HorizontalAlignment.CENTER);
         cellStyle.setVerticalAlignment(VerticalAlignment.CENTER);
 
-        write2Sheet(sheet, list, cellStyle,null);
+        write2Sheet(sheet, list, cellStyle,0, 0, null);
         //response为HttpServletResponse对象
         response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8");
         //file.xls是弹出下载对话框的文件名，不能为中文，中文请自行编码
@@ -242,27 +243,27 @@ public class FileUtil extends cn.hutool.core.io.FileUtil {
         IoUtil.close(out);
     }
 
-
-    /**
-     * 每个sheet的写入
-     *
-     * @param pattern 日期格式
-     */
-    private static void write2Sheet(XSSFSheet sheet,List<Map<String, Object>> list,
-                                    XSSFCellStyle titleCellStyle,
-                                    String pattern) {
+    public static void write2Sheet(XSSFSheet sheet,
+                                   List<Map<String, Object>> list,
+                                   XSSFCellStyle titleCellStyle,
+                                   int firstRow,
+                                   int firstColumn,
+                                   String pattern) {
         if (CollectionUtils.isEmpty(list)) {
             return;
         }
         //时间格式默认"yyyy-MM-dd"
         if (StringUtils.isEmpty(pattern)){
-            pattern = "yyyy/MM/dd HH:mm:ss";
+            pattern = "yyyy-MM-dd HH:mm:ss";
         }
         // 产生表格标题行
-        XSSFRow row = sheet.createRow(0);
+        XSSFRow row = sheet.getRow(firstRow);
+        if (row == null) {
+            row = sheet.createRow(firstRow);
+        }
         Set<String> keys = list.get(0).keySet();
         Iterator<String> it1 = keys.iterator();
-        int c= 0;   //标题列数
+        int c = firstColumn;   //标题列数
         while (it1.hasNext()){
             XSSFCell cell = row.createCell(c);
             XSSFRichTextString text = new XSSFRichTextString(it1.next());
@@ -272,13 +273,16 @@ public class FileUtil extends cn.hutool.core.io.FileUtil {
         }
         // 遍历集合数据，产生数据行
         Iterator<Map<String, Object>> it = list.iterator();
-        int index = 0;
+        int index = firstRow;
         while (it.hasNext()) {
             index++;
-            row = sheet.createRow(index);
+            row = sheet.getRow(index);
+            if (row == null) {
+                row = sheet.createRow(index);
+            }
             Map<String, Object> map = it.next();
             try {
-                int cellNum = 0;
+                int cellNum = firstColumn;
                 //遍历列名
                 for (String key : keys) {
 
@@ -309,7 +313,11 @@ public class FileUtil extends cn.hutool.core.io.FileUtil {
                         textValue = sdf.format(value);
                     }else if (value instanceof LocalDateTime){
                         LocalDateTime ldValue = (LocalDateTime) value;
-                        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+                        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                        textValue =ldValue.format(dtf);
+                    }else if (value instanceof LocalDate){
+                        LocalDate ldValue = (LocalDate) value;
+                        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
                         textValue =ldValue.format(dtf);
                     }else if (value instanceof String[]) {
                         String[] strArr = (String[]) value;
@@ -345,20 +353,21 @@ public class FileUtil extends cn.hutool.core.io.FileUtil {
                     }
                     cellNum++;
                 }
-
             } catch (Exception e) {
                 log.error(e.toString(), e);
             }
         }
         // 设定自动宽度
-        setSizeColumn(sheet,keys.size());
+        setSizeColumn(sheet, firstRow, keys.size());
     }
 
-    // 自适应宽度(中文支持)
-    private static void setSizeColumn(XSSFSheet sheet, int rowsSize) {
+    /**
+     * 自适应宽度(中文支持)
+     */
+    private static void setSizeColumn(XSSFSheet sheet, int firstRow, int rowsSize) {
         for (int columnNum = 0; columnNum <= rowsSize; columnNum++) {
             int columnWidth = sheet.getColumnWidth(columnNum) / 256;
-            for (int rowNum = 0; rowNum < sheet.getLastRowNum(); rowNum++) {
+            for (int rowNum = firstRow; rowNum < sheet.getLastRowNum(); rowNum++) {
                 XSSFRow currentRow;
                 //当前行未被使用过
                 if (sheet.getRow(rowNum) == null) {
@@ -376,9 +385,10 @@ public class FileUtil extends cn.hutool.core.io.FileUtil {
                     }
                 }
             }
-            sheet.setColumnWidth(columnNum, columnWidth * 256);
+            sheet.setColumnWidth(columnNum, columnWidth < 100 ? columnWidth * 256 : 100 * 256);
         }
     }
+
     /**
      * 获取类型
      */
