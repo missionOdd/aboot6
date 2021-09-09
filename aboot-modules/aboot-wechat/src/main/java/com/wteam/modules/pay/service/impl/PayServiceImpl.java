@@ -53,9 +53,9 @@ public class PayServiceImpl implements PayService {
             payLog.setRequestIp(ip);
             payLog.setAddress(StringUtils.getCityInfo(ip));
             payLog.setBrowser(StringUtils.getBrowser(httpRequest));
-            payLog.setExceptionDetail(e.getCustomErrorMsg());
+            payLog.setExceptionDetail(e.getLocalizedMessage());
             payLogService.create(payLog);
-            throw new BadRequestException(e.getCustomErrorMsg());
+            throw new BadRequestException(e.getLocalizedMessage());
         }
         return order;
     }
@@ -82,9 +82,9 @@ public class PayServiceImpl implements PayService {
             payLog.setMethod("post");
             payLog.setParams(tradeNo);
             payLog.setLogType("orderquery");
-            payLog.setExceptionDetail(e.getCustomErrorMsg());
+            payLog.setExceptionDetail(e.getLocalizedMessage());
             payLogService.create(payLog);
-            throw new BadRequestException(e.getCustomErrorMsg());
+            throw new BadRequestException(e.getLocalizedMessage());
         }
         return queryResult;
     }

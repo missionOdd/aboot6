@@ -83,12 +83,12 @@ public class ${className}QueryCriteria{
     /** 大于等于查询: ${column.remark} */
     @ApiParam("大于等于查询: ${column.remark}")
     @Query(propName = "${column.changeColumnName}", type = Query.Type.GREATER_THAN)
-    private ${column.columnType} great${column.capitalColumnName};
+    private ${column.columnType} ${column.capitalColumnName}Great;
 
     /** 小于等于查询: ${column.remark} */
     @ApiParam("小于等于查询: ${column.remark}")
     @Query(propName = "${column.changeColumnName}", type = Query.Type.LESS_THAN)
-    private ${column.columnType} less${column.capitalColumnName};
+    private ${column.columnType} ${column.capitalColumnName}Less;
     </#list>
 </#if>
 }

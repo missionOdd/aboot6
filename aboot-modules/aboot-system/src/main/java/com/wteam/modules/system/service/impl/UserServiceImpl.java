@@ -221,19 +221,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Object queryAll(UserQueryCriteria criteria, Pageable pageable){
+    public Map<String, Object> queryAll(UserQueryCriteria criteria, Pageable pageable){
         return PageUtil.toPage(userRepository.findAll((root, cq, cb) ->
             QueryHelper.andPredicate(root, criteria, cb),pageable)
         .map(userMapper::toDto));
     }
-
-    @Override
-    public Page<UserDTO> queryPage(UserQueryCriteria criteria, Pageable pageable) {
-        return userRepository.findAll((root, cq, cb) ->
-                QueryHelper.andPredicate(root, criteria, cb),pageable)
-                .map(userMapper::toDto);
-    }
-
 
     @Override
     public List<UserDTO> queryAll(UserQueryCriteria criteria) {

@@ -28,6 +28,7 @@ import cn.hutool.core.util.IdUtil;
 import com.wteam.utils.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.cache.annotation.*;
@@ -57,20 +58,23 @@ public class ${className}ServiceImpl implements ${className}Service {
     @Override
     public Map<String, Object> queryAll(${className}QueryCriteria criteria, Pageable pageable) {
         Page<${className}> page = ${changeClassName}Repository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelper.andPredicate(root, criteria, criteriaBuilder), pageable);
-        return PageUtil.toPage(page.map(${changeClassName}Mapper::toDto));
+        Page<${className}DTO> result = page.map(${changeClassName}Mapper::toDto);
+        return PageUtil.toPage(result);
     }
 
     @Override
-    public List<${className}DTO> queryAll(${className}QueryCriteria criteria) {
-        return ${changeClassName}Mapper.toDto(${changeClassName}Repository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelper.andPredicate(root,criteria,criteriaBuilder)));
+    public List<${className}DTO> queryAll(${className}QueryCriteria criteria, Sort sort) {
+        List<${className}DTO> result = ${changeClassName}Mapper.toDto(${changeClassName}Repository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelper.andPredicate(root,criteria,criteriaBuilder), sort));
+        return result;
     }
 
     @Override
-    @Cacheable(key = "'id:' + #p0")
+    // @Cacheable(key = "'id:' + #p0")
     public ${className}DTO findDTOById(${pkColumnType} ${pkChangeColName}) {
         ${className} ${changeClassName} = ${changeClassName}Repository.findById(${pkChangeColName}).orElse(null);
         ValidUtil.notNull(${changeClassName}, ${className}.ENTITY_NAME, "${pkChangeColName}", ${pkChangeColName});
-        return ${changeClassName}Mapper.toDto(${changeClassName});
+        ${className}DTO result = ${changeClassName}Mapper.toDto(${changeClassName});
+        return result;
     }
 
     @Override
@@ -96,7 +100,7 @@ public class ${className}ServiceImpl implements ${className}Service {
     }
 
     @Override
-    @CacheEvict(key = "'id:' + #p0.id")
+    // @CacheEvict(key = "'id:' + #p0.id")
     @Transactional(rollbackFor = Exception.class)
     public void update(${className} resources) {
         ${className} ${changeClassName} = ${changeClassName}Repository.findById(resources.get${pkCapitalColName}()).orElse(null);
@@ -122,8 +126,8 @@ public class ${className}ServiceImpl implements ${className}Service {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void deleteAll(Set<${pkColumnType}> ids) {
-        redisUtils.delByKeys("${changeClassName}::id:", ids);
         ${changeClassName}Repository.logicDeleteInBatchById(ids);
+        // redisUtils.delByKeys("${changeClassName}::id:", ids);
     }
 
     @Override

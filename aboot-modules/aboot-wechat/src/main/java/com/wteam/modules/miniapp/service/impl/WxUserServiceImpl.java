@@ -173,8 +173,6 @@ public class WxUserServiceImpl implements WxUserService {
                 }
             }
             if (userInfo != null) {
-                //表情过滤
-                userInfo.setNickName(StringUtils.filterEmoji(userInfo.getNickName()));
                 try {
                     //头像保存到本地
                     URL url = new URL(userInfo.getAvatarUrl());

@@ -9,15 +9,22 @@
 package com.wteam.base;
 
 import com.wteam.base.impl.SpecificationSupport;
+import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.repository.NoRepositoryBean;
+import org.springframework.lang.Nullable;
 
+import javax.persistence.LockModeType;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * 通用Repository
@@ -98,6 +105,31 @@ public interface BaseRepository<T, ID extends Serializable> extends JpaRepositor
      */
     int logicDeleteInBatchById(Iterable<ID> ids);
 
+    @Lock(value = LockModeType.PESSIMISTIC_WRITE)
+    Optional<T> findByIdForLock(ID id);
 
+    @Lock(value = LockModeType.PESSIMISTIC_WRITE)
+    List<T> findAllForLock();
+
+    @Lock(value = LockModeType.PESSIMISTIC_WRITE)
+    List<T> findAllForLock(Sort var1);
+
+    @Lock(value = LockModeType.PESSIMISTIC_WRITE)
+    List<T> findAllByIdForLock(Iterable<ID> var1);
+
+    @Lock(value = LockModeType.PESSIMISTIC_WRITE)
+    <S extends T> List<S> findAllForLock(Example<S> var1);
+
+    @Lock(value = LockModeType.PESSIMISTIC_WRITE)
+    <S extends T> List<S> findAllForLock(Example<S> var1, Sort var2);
+
+    @Lock(value = LockModeType.PESSIMISTIC_WRITE)
+    List<T> findAllForLock(@Nullable Specification<T> var1);
+
+    @Lock(value = LockModeType.PESSIMISTIC_WRITE)
+    Page<T> findAllForLock(@Nullable Specification<T> var1, Pageable var2);
+
+    @Lock(value = LockModeType.PESSIMISTIC_WRITE)
+    List<T> findAllForLock(@Nullable Specification<T> var1, Sort var2);
 
 }

@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -84,10 +85,8 @@ public interface UserService {
      * @param pageable
      * @return
      */
-    Object queryAll(UserQueryCriteria criteria, Pageable pageable);
+    Map<String, Object> queryAll(UserQueryCriteria criteria, Pageable pageable);
 
-
-    Page<UserDTO> queryPage(UserQueryCriteria criteria, Pageable pageable);
     /**
      * 查看用户列表
      * @param criteria

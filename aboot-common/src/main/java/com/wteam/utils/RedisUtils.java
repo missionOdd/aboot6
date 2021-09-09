@@ -89,7 +89,7 @@ public class RedisUtils {
     }
 
     /**
-     * 查找匹配key
+     * 查找匹配key (必须加*号匹配)
      *
      * @param pattern key
      * @return /
@@ -223,6 +223,18 @@ public class RedisUtils {
         List resultList = Lists.newArrayList();
         Optional.ofNullable(list).ifPresent(e-> list.forEach(ele-> Optional.ofNullable(ele).ifPresent(resultList::add)));
         return resultList;
+    }
+
+    /**
+     * 普通缓存模糊获取 (必须加*号匹配)
+     * @param key 键
+     * @return 值
+     */
+    public List<Object> likeGet(String key) {
+        Set<Object> keys = redisTemplate.keys(key);
+
+        List<Object> result = redisTemplate.opsForValue().multiGet(keys);
+        return result;
     }
 
     /**

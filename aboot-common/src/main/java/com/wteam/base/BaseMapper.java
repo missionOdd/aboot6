@@ -8,6 +8,7 @@
  */
 package com.wteam.base;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -30,10 +31,10 @@ public interface BaseMapper<D,E> {
     /**
      * DTO集合转Entity集合
      */
-    List<E> toEntity(List<D> dtoList);
+    List<E> toEntity(Collection<D> dtoList);
 
     /**
      * Entity集合转DTO集合
      */
-    List <D> toDto(List<E> entityList);
+    List <D> toDto(Collection<E> entityList);
 }

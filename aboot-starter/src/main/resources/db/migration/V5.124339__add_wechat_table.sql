@@ -61,7 +61,7 @@ CREATE TABLE `pay_log` (
 	`app_id` VARCHAR(255) NOT NULL COMMENT '应用id' COLLATE 'utf8mb4_general_ci',
 	`app_order_id` VARCHAR(255) NOT NULL COMMENT '应用方订单号' COLLATE 'utf8mb4_general_ci',
 	`transaction_id` VARCHAR(255) NOT NULL COMMENT '本次交易唯一id，整个支付系统唯一，生成他的原因主要是 order_id对于其它应用来说可能重复' COLLATE 'utf8mb4_general_ci',
-	`exception_detail` VARCHAR(255) NULL DEFAULT NULL COMMENT '异常详细' COLLATE 'utf8mb4_general_ci',
+	`exception_detail` TEXT NULL DEFAULT NULL COMMENT '异常详细' COLLATE 'utf8mb4_general_ci',
 	`username` VARCHAR(255) NULL DEFAULT NULL COMMENT '操作用户' COLLATE 'utf8mb4_general_ci',
 	`time` BIGINT(20) NULL DEFAULT NULL COMMENT '请求耗时',
 	`method` VARCHAR(255) NULL DEFAULT NULL COMMENT '方法名' COLLATE 'utf8mb4_general_ci',

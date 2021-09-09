@@ -35,15 +35,15 @@ REPLACE INTO `sys_job` VALUES (1, '执行董事', 1, b'1', 1, '2019-08-20 16:18:
 REPLACE INTO `sys_menu` VALUES (1, '系统管理', NULL, b'0', b'1', b'0', '', 0, 990, '系统管理', '', '2019-07-26 17:39:58', 0, NULL, '2020-08-28 18:04:04', NULL);
 REPLACE INTO `sys_menu` VALUES (2, '用户管理', NULL, b'0', b'1', b'0', '/system/user/index', 1, 0, '用户', '/home/user_manage', '2019-07-26 17:40:30', 0, NULL, '2020-08-28 18:04:04', NULL);
 REPLACE INTO `sys_menu` VALUES (3, '角色管理', NULL, b'0', b'1', b'0', '/system/role/index', 1, 0, '角色管理', '/home/role_manage', '2019-07-26 17:40:59', 0, NULL, '2020-08-28 18:04:04', NULL);
-REPLACE INTO `sys_menu` VALUES (4, '权限管理', NULL, b'0', b'1', b'0', '/system/authority/index', 1, 0, '权限管理', '/home/authority_manage', '2019-07-26 17:41:34', 0, NULL, '2020-08-28 18:04:04', NULL);
+REPLACE INTO `sys_menu` VALUES (4, '权限管理', NULL, b'0', b'0', b'0', '/system/authority/index', 1, 0, '权限管理', '/home/authority_manage', '2019-07-26 17:41:34', 0, NULL, '2020-08-28 18:04:04', NULL);
 REPLACE INTO `sys_menu` VALUES (5, '菜单管理', NULL, b'0', b'1', b'0', '/system/menu/index', 1, 0, '菜单', '/home/menu_manage', '2019-07-26 17:41:52', 0, NULL, '2020-08-28 18:04:04', NULL);
-REPLACE INTO `sys_menu` VALUES (6, '字典管理', NULL, b'0', b'1', b'0', '/system/dictionary/index', 1, 0, '字典管理', '/home/dictionary_manage', '2019-07-26 17:42:12', 0, NULL, '2020-08-28 18:04:04', NULL);
+REPLACE INTO `sys_menu` VALUES (6, '字典管理', NULL, b'0', b'0', b'0', '/system/dictionary/index', 1, 0, '字典管理', '/home/dictionary_manage', '2019-07-26 17:42:12', 0, NULL, '2020-08-28 18:04:04', NULL);
 REPLACE INTO `sys_menu` VALUES (7, '部门管理', NULL, b'0', b'0', b'0', '/system/department/index', 1, 0, '部门管理', '/home/department_manage', '2019-07-26 17:42:33', 0, NULL, '2020-08-28 18:04:04', NULL);
 REPLACE INTO `sys_menu` VALUES (8, '岗位管理', NULL, b'0', b'0', b'0', '/system/station/index', 1, 0, '岗位图标', '/home/station_manage', '2019-07-26 17:43:04', 0, NULL, '2020-08-28 18:04:04', NULL);
-REPLACE INTO `sys_menu` VALUES (9, '日志管理', NULL, b'0', b'1', b'0', '', 0, 991, '日志管理', '', '2019-07-26 17:43:27', 0, NULL, '2020-08-28 18:04:04', NULL);
+REPLACE INTO `sys_menu` VALUES (9, '日志管理', NULL, b'0', b'0', b'0', '', 0, 991, '日志管理', '', '2019-07-26 17:43:27', 0, NULL, '2020-08-28 18:04:04', NULL);
 REPLACE INTO `sys_menu` VALUES (10, '操作日志', NULL, b'0', b'1', b'0', '/log/operation_log/index', 9, 0, '操作_设置', '/home/operation_log', '2019-07-26 17:43:53', 0, NULL, '2020-08-28 18:04:04', NULL);
 REPLACE INTO `sys_menu` VALUES (11, '异常日志', NULL, b'0', b'1', b'0', '/log/exception_log/index', 9, 0, '异常', '/home/exception_log', '2019-07-26 17:44:24', 0, NULL, '2020-08-28 18:04:04', NULL);
-REPLACE INTO `sys_menu` VALUES (12, '系统监控', NULL, b'0', b'1', b'0', '', 0, 992, '监控', '', '2019-07-26 17:55:38', 0, NULL, '2020-08-28 18:04:04', NULL);
+REPLACE INTO `sys_menu` VALUES (12, '系统监控', NULL, b'0', b'0', b'0', '', 0, 992, '监控', '', '2019-07-26 17:55:38', 0, NULL, '2020-08-28 18:04:04', NULL);
 REPLACE INTO `sys_menu` VALUES (13, '系统缓存', NULL, b'0', b'1', b'0', '/monitor/redis_manage/index', 14, 1, '清除缓存', '/home/redis_manage', '2019-07-26 17:56:34', 0, NULL, '2020-09-12 10:49:58', NULL);
 REPLACE INTO `sys_menu` VALUES (14, '系统工具', NULL, b'0', b'1', b'0', '', 0, 993, '工具', '', '2019-07-26 20:53:33', 0, NULL, '2020-08-28 18:04:04', NULL);
 REPLACE INTO `sys_menu` VALUES (15, '平台介绍', NULL, b'0', b'0', b'0', '/introduction/index', 0, 999, '平台介绍', '/home/introduction', '2019-07-27 14:26:42', 0, NULL, '2020-08-28 18:04:04', NULL);
@@ -131,8 +131,8 @@ REPLACE INTO `sys_permission` VALUES (74, '图片编辑', 'PICTURE:edit', 23, '2
 -- Records of role
 -- ----------------------------
 REPLACE INTO `sys_role` VALUES (1, '超级管理员','ADMIN', '全部', 1,'系统所有权', '2018-11-23 11:04:37', 1, NULL,'2019-08-21 10:14:20', NULL);
-REPLACE INTO `sys_role` VALUES (2, '普通用户',NULL, '本级', 3,'用于测试菜单与权限',  '2018-11-23 13:09:06', 1, NULL, '2019-08-11 18:29:07', NULL);
-REPLACE INTO `sys_role` VALUES (3, '普通管理员',NULL,  '全部', 2,'普通管理员级别为2，使用该角色新增用户时只能赋予比普通管理员级别低的角色', '2019-05-13 14:16:15', 1,  NULL, '2019-09-04 20:18:37', NULL);
+REPLACE INTO `sys_role` VALUES (2, '普通管理员',NULL,  '全部', 2,'普通管理员级别为2，使用该角色新增用户时只能赋予比普通管理员级别低的角色', '2019-05-13 14:16:15', 1,  NULL, '2019-09-04 20:18:37', NULL);
+REPLACE INTO `sys_role` VALUES (3, '普通用户',NULL, '本级', 3,'用于测试菜单与权限',  '2018-11-23 13:09:06', 1, NULL, '2019-08-11 18:29:07', NULL);
 
 -- ----------------------------
 -- Records of sys_roles_menus_map
@@ -170,24 +170,36 @@ REPLACE INTO `sys_roles_menus_map` VALUES (30, 1);
 REPLACE INTO `sys_roles_menus_map` VALUES (31, 1);
 REPLACE INTO `sys_roles_menus_map` VALUES (32, 1);
 REPLACE INTO `sys_roles_menus_map` VALUES (33, 1);
-REPLACE INTO `sys_roles_menus_map` VALUES (34, 1);
-REPLACE INTO `sys_roles_menus_map` VALUES (36, 1);
-REPLACE INTO `sys_roles_menus_map` VALUES (37, 1);
+REPLACE INTO `sys_roles_menus_map` VALUES (1, 2);
+REPLACE INTO `sys_roles_menus_map` VALUES (2, 2);
+REPLACE INTO `sys_roles_menus_map` VALUES (3, 2);
+REPLACE INTO `sys_roles_menus_map` VALUES (4, 2);
+REPLACE INTO `sys_roles_menus_map` VALUES (5, 2);
+REPLACE INTO `sys_roles_menus_map` VALUES (6, 2);
+REPLACE INTO `sys_roles_menus_map` VALUES (7, 2);
+REPLACE INTO `sys_roles_menus_map` VALUES (8, 2);
+REPLACE INTO `sys_roles_menus_map` VALUES (9, 2);
+REPLACE INTO `sys_roles_menus_map` VALUES (10, 2);
+REPLACE INTO `sys_roles_menus_map` VALUES (11, 2);
+REPLACE INTO `sys_roles_menus_map` VALUES (12, 2);
+REPLACE INTO `sys_roles_menus_map` VALUES (13, 2);
 
 -- ----------------------------
 -- Records of roles_permissions_map
 -- ----------------------------
 REPLACE INTO `sys_roles_permissions_map` VALUES (1, 1);
+REPLACE INTO `sys_roles_permissions_map` VALUES (2, 1);
 
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-REPLACE INTO `sys_user` VALUES (1, 'admin', 'SuperLike', '$2a$10$tX2FSbajRt4xkUo4Sg4TF.V54m/QvoUFpiP9skWwzMqsTEKT44dbW', 0, '18888888888', '123456@qq.com', NULL, 0, 1, 1, b'1', '2019-07-27 19:32:05', '2019-08-29 09:16:54', '2018-08-23 09:11:56',0, NULL, '2020-01-19 13:22:43',NULL);
+REPLACE INTO `sys_user` VALUES (1, 'superAdmin', 'superAdmin', '$2a$10$tX2FSbajRt4xkUo4Sg4TF.V54m/QvoUFpiP9skWwzMqsTEKT44dbW', 0, '18888888888', '123456@qq.com', NULL, 0, 1, 1, b'1', '2019-07-27 19:32:05', '2019-08-29 09:16:54', '2018-08-23 09:11:56',0, NULL, '2020-01-19 13:22:43',NULL);
+REPLACE INTO `sys_user` VALUES (2, 'admin', 'admin', '$2a$10$tX2FSbajRt4xkUo4Sg4TF.V54m/QvoUFpiP9skWwzMqsTEKT44dbW', 0, '18888888889', '1234567@qq.com', NULL, 0, 1, 1, b'1', '2019-07-27 19:32:05', '2019-08-29 09:16:54', '2018-08-23 09:11:56',0, NULL, '2020-01-19 13:22:43',NULL);
 
 -- ----------------------------
 -- Records of users_roles_map
 -- ----------------------------
 REPLACE INTO `sys_users_roles_map` VALUES (1, 1);
-
+REPLACE INTO `sys_users_roles_map` VALUES (2, 2);
 
 SET FOREIGN_KEY_CHECKS = 1;

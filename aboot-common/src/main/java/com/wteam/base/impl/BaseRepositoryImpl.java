@@ -12,8 +12,10 @@ import com.wteam.base.BaseRepository;
 import com.wteam.utils.BeanUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.query.QueryUtils;
 import org.springframework.data.jpa.repository.support.JpaEntityInformation;
@@ -321,6 +323,51 @@ public class BaseRepositoryImpl<T, ID extends Serializable> extends SimpleJpaRep
             result +=logicDelete(id);
         }
         return result;
+    }
+
+    @Override
+    public Optional<T> findByIdForLock(ID id) {
+        return findById(id);
+    }
+
+    @Override
+    public List<T> findAllForLock() {
+        return findAll();
+    }
+
+    @Override
+    public List<T> findAllForLock(Sort var1) {
+        return findAll(var1);
+    }
+
+    @Override
+    public List<T> findAllByIdForLock(Iterable<ID> var1) {
+        return findAllById(var1);
+    }
+
+    @Override
+    public <S extends T> List<S> findAllForLock(Example<S> var1) {
+        return findAll(var1);
+    }
+
+    @Override
+    public <S extends T> List<S> findAllForLock(Example<S> var1, Sort var2) {
+        return findAll(var1, var2);
+    }
+
+    @Override
+    public List<T> findAllForLock(Specification<T> var1) {
+        return findAll(var1);
+    }
+
+    @Override
+    public Page<T> findAllForLock(Specification<T> var1, Pageable var2) {
+        return findAll(var1, var2);
+    }
+
+    @Override
+    public List<T> findAllForLock(Specification<T> var1, Sort var2) {
+        return findAll(var1, var2);
     }
 
     /**
