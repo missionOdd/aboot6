@@ -90,7 +90,7 @@ public class ${className}ServiceImpl implements ${className}Service {
     <#if columns??>
         <#list columns as column>
             <#if column.columnKey = 'UNI'>
-        if(${changeClassName}Repository.findBy${column.capitalColumnName}(resources.get${column.capitalColumnName}()) != null){
+        if (${changeClassName}Repository.findBy${column.capitalColumnName}(resources.get${column.capitalColumnName}()) != null) {
            throw new EntityExistException(${className}.ENTITY_NAME,"${column.columnName}",resources.get${column.capitalColumnName}());
         }
             </#if>
@@ -113,7 +113,7 @@ public class ${className}ServiceImpl implements ${className}Service {
         <#list columns as column>
             <#if column.columnKey = 'UNI'>
         ${changeClassName}1 = ${changeClassName}Repository.findBy${column.capitalColumnName}(resources.get${column.capitalColumnName}());
-        if(${changeClassName}1 != null && !${changeClassName}1.get${pkCapitalColName}().equals(${changeClassName}.get${pkCapitalColName}())){
+        if (${changeClassName}1 != null && !${changeClassName}1.get${pkCapitalColName}().equals(${changeClassName}.get${pkCapitalColName}())) {
             throw new EntityExistException(${className}.ENTITY_NAME, "${column.columnName}", resources.get${column.capitalColumnName}());
         }
             </#if>

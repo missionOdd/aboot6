@@ -17,6 +17,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -50,7 +51,7 @@ public class ${className}Controller {
     @ApiOperation(value = "查询${tableComment}分页")
     @GetMapping(value = "/page")
     @PreAuthorize("@R.check('${upperCaseClassName}:all', '${upperCaseClassName}:list')")
-    public R get${className}s(${className}QueryCriteria criteria, Pageable pageable){
+    public R get${className}s(${className}QueryCriteria criteria, Pageable pageable) {
         return R.ok(${changeClassName}Service.queryAll(criteria, pageable));
     }
 
@@ -61,7 +62,7 @@ public class ${className}Controller {
     @ApiOperation(value = "查询${tableComment}详情")
     @GetMapping(value = "/get/{${pkChangeColName}}")
     @PreAuthorize("@R.check('${upperCaseClassName}:all', '${upperCaseClassName}:list')")
-    public R get(@PathVariable ${pkColumnType} ${pkChangeColName}){
+    public R get(@PathVariable ${pkColumnType} ${pkChangeColName}) {
         return R.ok(${changeClassName}Service.findDTOById(${pkChangeColName}));
     }
 
@@ -69,7 +70,7 @@ public class ${className}Controller {
     @ApiOperation(value = "新增${tableComment}")
     @PostMapping(value = "/add")
     @PreAuthorize("@R.check('${upperCaseClassName}:all', '${upperCaseClassName}:add')")
-    public R create(@Validated(${className}.Create.class) @RequestBody ${className} resources){
+    public R create(@Validated(${className}.Create.class) @RequestBody ${className} resources) {
         return R.ok(${changeClassName}Service.create(resources));
     }
 
@@ -77,7 +78,7 @@ public class ${className}Controller {
     @ApiOperation(value = "修改${tableComment}")
     @PostMapping(value = "/edit")
     @PreAuthorize("@R.check('${upperCaseClassName}:all', '${upperCaseClassName}:edit')")
-    public R update(@Validated(${className}.Update.class) @RequestBody ${className} resources){
+    public R update(@Validated(${className}.Update.class) @RequestBody ${className} resources) {
         ${changeClassName}Service.update(resources);
         return R.ok();
     }
@@ -86,7 +87,7 @@ public class ${className}Controller {
     @ApiOperation(value = "删除${tableComment}")
     @PostMapping(value = "/del")
     @PreAuthorize("@R.check('${upperCaseClassName}:all', '${upperCaseClassName}:del')")
-    public R delete(@RequestBody Set<${pkColumnType}> ids){
+    public R delete (@RequestBody Set<${pkColumnType}> ids) {
         ${changeClassName}Service.deleteAll(ids);
         return R.ok();
     }
@@ -95,8 +96,8 @@ public class ${className}Controller {
     @ApiOperation("导出数据")
     @GetMapping(value = "/download")
     @PreAuthorize("@R.check('${upperCaseClassName}:all', '${upperCaseClassName}:list')")
-    public void download(HttpServletResponse response, ${className}QueryCriteria criteria) throws IOException {
-        ${changeClassName}Service.download(${changeClassName}Service.queryAll(criteria), response);
+    public void download(HttpServletResponse response, ${className}QueryCriteria criteria, Sort sort) throws IOException {
+        ${changeClassName}Service.download(${changeClassName}Service.queryAll(criteria, sort), response);
     }
 
 }

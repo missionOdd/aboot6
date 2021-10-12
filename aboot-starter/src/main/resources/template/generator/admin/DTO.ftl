@@ -30,6 +30,7 @@ import io.swagger.annotations.ApiModelProperty;
  */
 @Data
 public class ${className}DTO implements Serializable {
+
 <#if columns??>
     <#list columns as column>
     <#if
@@ -37,7 +38,6 @@ public class ${className}DTO implements Serializable {
     column.changeColumnName = 'updatedAt'||
     column.changeColumnName = 'updatedBy'><#else>
     <#if column.remark != ''>
-
     /** ${column.remark} */
     @ApiModelProperty("${column.remark}")
     </#if>
@@ -48,6 +48,7 @@ public class ${className}DTO implements Serializable {
     </#if>
     </#if>
     private ${column.columnType} ${column.changeColumnName};
+
     </#if>
     </#list>
 </#if>
