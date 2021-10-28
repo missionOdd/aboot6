@@ -107,9 +107,9 @@ public class QueryHelper {
                     // 关联查询处理
                     Join join = getJoin(root,q.joinName(),q.join());
                     //自定义JPQL查询处理
-                    if (toJPQL(root, list, field, accessible, q, val, attributeName, join)) continue;
+                    if (toJPQL(root, cb, list, field, accessible, q, val, attributeName, join)) continue;
                     //自定义SQL查询处理
-                    if (toSQL(root, list, field, accessible, q, val, attributeName, join)) continue;
+                    if (toSQL(root, cb, list, field, accessible, q, val, attributeName, join)) continue;
                     //通用子查询处理
                     if (toSubQuery(root, cb, list, field, accessible, q, val, attributeName, fieldType, join)) continue;
                     //通用子查询处理
@@ -165,7 +165,7 @@ public class QueryHelper {
     /**
      * JPQL查询
      */
-    private static <R> boolean toJPQL(Root<R> root, List<Predicate> list, Field field, boolean accessible, Query q, Object val, String attributeName, Join join) {
+    private static <R> boolean toJPQL(Root<R> root, CriteriaBuilder cb, List<Predicate> list, Field field, boolean accessible, Query q, Object val, String attributeName, Join join) {
         String queryJPQL = q.queryJPQL();
         if (isNotEmpty(queryJPQL)){
             try {
@@ -176,7 +176,13 @@ public class QueryHelper {
                 }else {
                     queryJP.setParameter(field.getName(), val);
                 }
-                list.add(getExpression(attributeName,join,root).in(queryJP.getResultList()));
+                List resultList = queryJP.getResultList();
+                if (resultList.size() != 0) {
+                    list.add(getExpression(attributeName, join, root).in(resultList));
+                } else {
+                    Expression<Object> expression = getExpression(attributeName, join, root);
+                    list.add(expression.in(cb.nullLiteral(expression.getClass())));
+                }
             } catch (Exception e) {
                 log.error("[子查询SQL错误]"+e.getMessage(),e);
             }
@@ -189,7 +195,7 @@ public class QueryHelper {
     /**
      * 自定义原生SQL查询
      */
-    private static <R> boolean toSQL(Root<R> root, List<Predicate> list, Field field, boolean accessible, Query q, Object val, String attributeName, Join join) {
+    private static <R> boolean toSQL(Root<R> root, CriteriaBuilder cb, List<Predicate> list, Field field, boolean accessible, Query q, Object val, String attributeName, Join join) {
         String querySQL = q.querySQL();
         if (isNotEmpty(querySQL)){
             try {
@@ -200,7 +206,13 @@ public class QueryHelper {
                 }else {
                     queryJP.setParameter(field.getName(), val);
                 }
-                list.add(getExpression(attributeName,join,root).in(queryJP.getResultList()));
+                List resultList = queryJP.getResultList();
+                if (resultList.size() != 0) {
+                    list.add(getExpression(attributeName, join, root).in(resultList));
+                } else {
+                    Expression<Object> expression = getExpression(attributeName, join, root);
+                    list.add(expression.in(cb.nullLiteral(expression.getClass())));
+                }
             } catch (Exception e) {
                 log.error("[子查询SQL错误]"+e.getMessage(),e);
             }
