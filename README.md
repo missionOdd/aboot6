@@ -1,7 +1,7 @@
 # aboot
 aboot系统
-> 基于aboot 4.0的后端开发。采用SpringBoot2+Jpa+SpringSecurity+jwt+redis+Vue 共同打造的前后端分离的管理系统。
-> 通过最安全,最放心,最底成本,最方便维护的开发模式，为各企业带来最好的开发服务。
+> 基于eladmin的后端开发。采用SpringBoot2+Jpa+SpringSecurity+jwt+redis+Vue 共同打造的前后端分离的管理系统。
+> 通过安全,放心,底成本,最方便维护的开发模式，为各企业带来最好的开发服务。
 ## 快速运行
 导入项目到开发工具，推荐`Intellij IDEA`
 ##### 1.检查`JDK8`、`Mysql5.7+`和`Redis 6+`已经正常运行。
